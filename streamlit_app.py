@@ -111,14 +111,14 @@ st.write(
 )
 
 #ax.set_title('Distribution of House Prices in $100,000s')
-
+'''
 values = st.slider('Select a range for Strike Price', min(df.strike), max(df.strike),
                   (min(df.strike), max(df.strike)))
 #st.write('Values:', values)
 
 min = values[0]
 max = values[1]
-'''
+
 condition = (df.strike >= min) & (df.strike <= max)
 
 
