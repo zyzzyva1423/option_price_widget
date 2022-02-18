@@ -15,18 +15,21 @@ import pandas as pd
 
 # Getting data from MongoDB
 
-'''
-client = MongoClient()
+
+username = st.secrets.db_credentials.username
+password = st.secrets.db_credentials.password
+
+client = MongoClient("mongodb+srv://" + username + ":" password "$@option-eod-price.hr02c.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 db = client['options']
 
-pre = list(db.tsla.find({'lastTradeDate' : '2022-02-11'},
+pre = list(db.tsla.find({'lastTradeDate' : '2022-02-17'},
                  {'_id' : 0,
                   'data.options.CALL.expirationDate' : 1,
                   'data.options.CALL.strike' : 1, 'data.options.CALL.bid' : 1,
                   'data.options.CALL.ask' : 1}))
 
 df = pd.DataFrame.from_dict(pre[0]['data'][0]['options']['CALL'])
-'''
+
 
 ### PART 1 - Agenda
 #
