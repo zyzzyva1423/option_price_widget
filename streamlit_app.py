@@ -13,8 +13,9 @@ import json
 import numpy as np
 import pandas as pd
 
-# Getting data
+# Getting data from MongoDB
 
+'''
 client = MongoClient()
 db = client['options']
 
@@ -25,6 +26,7 @@ pre = list(db.tsla.find({'lastTradeDate' : '2022-02-11'},
                   'data.options.CALL.ask' : 1}))
 
 df = pd.DataFrame.from_dict(pre[0]['data'][0]['options']['CALL'])
+'''
 
 ### PART 1 - Agenda
 #
@@ -76,7 +78,7 @@ st.write(
 ### Bid-Ask Price of Tesla Call Option Expiring on Feb 18 2022
 ''')
 
-st.dataframe(df)
+#st.dataframe(df)
 
 # PART 4 - Graphing and Buttons
 
@@ -119,6 +121,7 @@ max = values[1]
 
 condition = (df.strike >= min) & (df.strike <= max)
 
+'''
 fig, ax = plt.subplots()
 
 line1 = ax.plot(df.strike[condition], df.bid[condition], label='Bid')
@@ -127,3 +130,4 @@ ax.set(xlabel='Strike Price', ylabel='Option Price')
 ax.legend()
 
 st.pyplot(fig)
+'''
