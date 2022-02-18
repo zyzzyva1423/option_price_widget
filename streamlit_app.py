@@ -118,10 +118,10 @@ values = st.slider('Select a range for Strike Price', min(df.strike), max(df.str
 
 min = values[0]
 max = values[1]
-
+'''
 condition = (df.strike >= min) & (df.strike <= max)
 
-'''
+
 fig, ax = plt.subplots()
 
 line1 = ax.plot(df.strike[condition], df.bid[condition], label='Bid')
