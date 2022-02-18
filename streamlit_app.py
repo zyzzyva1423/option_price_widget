@@ -19,7 +19,8 @@ import pandas as pd
 username = st.secrets.db_credentials.username
 password = st.secrets.db_credentials.password
 
-client = MongoClient("mongodb+srv://" + username + ":" + password + "$@option-eod-price.hr02c.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+url = "mongodb+srv://" + username + ":" + password + "@option-eod-price.hr02c.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+client = MongoClient(url)
 db = client['options']
 
 pre = list(db.tsla.find({'lastTradeDate' : '2022-02-17'},
@@ -29,7 +30,6 @@ pre = list(db.tsla.find({'lastTradeDate' : '2022-02-17'},
                   'data.options.CALL.ask' : 1}))
 
 df = pd.DataFrame.from_dict(pre[0]['data'][0]['options']['CALL'])
-
 
 ### PART 1 - Agenda
 #
@@ -81,7 +81,7 @@ st.write(
 ### Bid-Ask Price of Tesla Call Option Expiring on Feb 18 2022
 ''')
 
-#st.dataframe(df)
+st.dataframe(df)
 
 # PART 4 - Graphing and Buttons
 
@@ -114,7 +114,7 @@ st.write(
 )
 
 #ax.set_title('Distribution of House Prices in $100,000s')
-'''
+
 values = st.slider('Select a range for Strike Price', min(df.strike), max(df.strike),
                   (min(df.strike), max(df.strike)))
 #st.write('Values:', values)
@@ -133,4 +133,3 @@ ax.set(xlabel='Strike Price', ylabel='Option Price')
 ax.legend()
 
 st.pyplot(fig)
-'''

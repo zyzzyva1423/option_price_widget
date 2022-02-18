@@ -1,2 +1,3 @@
 # Ignore credential file
 secrets.toml
+.streamlit/secrets.toml
