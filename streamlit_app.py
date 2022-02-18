@@ -19,7 +19,7 @@ import pandas as pd
 username = st.secrets.db_credentials.username
 password = st.secrets.db_credentials.password
 
-client = MongoClient("mongodb+srv://" + username + ":" password "$@option-eod-price.hr02c.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+client = MongoClient("mongodb+srv://" + username + ":" + password + "$@option-eod-price.hr02c.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 db = client['options']
 
 pre = list(db.tsla.find({'lastTradeDate' : '2022-02-17'},
