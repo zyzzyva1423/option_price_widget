@@ -25,12 +25,15 @@ db = client['options']
 
 # Uses st.cache to only rerun when the query changes or after 10 min.
 @st.cache(ttl=600)
-pre = list(db.tsla.find({'lastTradeDate' : '2022-02-17'},
+def get_data():
+    items = db.tsla.find({'lastTradeDate' : '2022-02-17'},
                  {'_id' : 0,
                   'data.options.CALL.expirationDate' : 1,
                   'data.options.CALL.strike' : 1, 'data.options.CALL.bid' : 1,
                   'data.options.CALL.ask' : 1}))
+    return items
 
+pre = list(items)
 df = pd.DataFrame.from_dict(pre[0]['data'][0]['options']['CALL'])
 
 ### PART 1 - Agenda
