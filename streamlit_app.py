@@ -31,9 +31,9 @@ def get_data():
                   'data.options.CALL.expirationDate' : 1,
                   'data.options.CALL.strike' : 1, 'data.options.CALL.bid' : 1,
                   'data.options.CALL.ask' : 1})
-    return items
+    return list(items)
 
-pre = list(get_data())
+pre = get_data()
 df = pd.DataFrame.from_dict(pre[0]['data'][0]['options']['CALL'])
 
 ### PART 1 - Agenda
