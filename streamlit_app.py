@@ -30,7 +30,7 @@ def get_data():
                  {'_id' : 0,
                   'data.options.CALL.expirationDate' : 1,
                   'data.options.CALL.strike' : 1, 'data.options.CALL.bid' : 1,
-                  'data.options.CALL.ask' : 1}))
+                  'data.options.CALL.ask' : 1})
     return items
 
 pre = list(items)
