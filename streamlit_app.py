@@ -33,7 +33,7 @@ def get_data():
                   'data.options.CALL.ask' : 1})
     return items
 
-pre = list(items)
+pre = list(get_data())
 df = pd.DataFrame.from_dict(pre[0]['data'][0]['options']['CALL'])
 
 ### PART 1 - Agenda
