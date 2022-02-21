@@ -23,6 +23,8 @@ url = "mongodb+srv://" + username + ":" + password + "@option-eod-price.hr02c.mo
 client = MongoClient(url)
 db = client['options']
 
+# Uses st.cache to only rerun when the query changes or after 10 min.
+@st.cache(ttl=600)
 pre = list(db.tsla.find({'lastTradeDate' : '2022-02-17'},
                  {'_id' : 0,
                   'data.options.CALL.expirationDate' : 1,
