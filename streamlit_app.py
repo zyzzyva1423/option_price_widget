@@ -53,7 +53,7 @@ def get_expiration_date(ticker, trade_date):
 expiration_date = st.selectbox('Please select the expiration date', tuple(get_expiration_date(ticker, trade_date)))
 
 # Uses st.cache to only rerun when the query changes or after 10 min.
-#@st.cache(ttl=600)
+#st.cache(ttl=600)
 def get_data(ticker, trade_date):
     items = db[ticker].find({'lastTradeDate' : trade_date},
                  {'_id' : 0,
@@ -107,3 +107,26 @@ chart_placeholder.pyplot(fig)
 st.write('### Bid-Ask Price of ', company, ' Call Option')
 df.columns = ['Expiration Date', 'Strike Price', 'Bid', 'Ask']
 st.dataframe(df[condition])
+
+
+# Contact form
+st.header(":mailbox: Get In Touch With Me!")
+
+contact_form = '''
+<form action="https://formsubmit.co/wm2324@columbia.edu" method="POST">
+     <input type="hidden" name="_captcha" value="false">
+     <input type="text" name="name" placeholder="Your name" required>
+     <input type="email" name="email" placeholder="Your email" required>
+      <textarea name="message" placeholder="Your message here"></textarea>
+     <button type="submit">Send</button>
+</form>
+'''
+
+st.markdown(contact_form, unsafe_allow_html=True)
+
+# Use local CSS File for contact form
+def local_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+local_css("style/style.css")
