@@ -25,7 +25,7 @@ ticker = st.selectbox('Please select the ticker of a stock', tuple(stock_dict.ke
 
 company = stock_dict[ticker]
 
-# Getting data from MongoDB
+# Connect to MongoDB
 
 username = st.secrets.db_credentials.username
 password = st.secrets.db_credentials.password
@@ -34,9 +34,10 @@ url = "mongodb+srv://" + username + ":" + password + "@option-eod-price.hr02c.mo
 client = MongoClient(url)
 db = client['options']
 
-# Cast the ticker selected from user to lower case
+# Change the ticker selected from user to lower case
 ticker = ticker.lower()
 
+# Section: to let user select trade late
 def get_trade_date(ticker):
     items = list(db[ticker].find({}, {'_id' : 0, 'lastTradeDate' : 1}))
     result = [d['lastTradeDate'] for d in items]
@@ -44,7 +45,7 @@ def get_trade_date(ticker):
 
 trade_date = st.selectbox('Please select the trade date', tuple(get_trade_date(ticker)))
 
-
+# Section: to let user select expiration date of the options
 def get_expiration_date(ticker, trade_date):
     items = db[ticker].find({'lastTradeDate' : trade_date},
                  {'_id' : 0,
@@ -62,7 +63,8 @@ def get_data(ticker, trade_date):
                  'lastTradePrice' : 1,
                  'data.options.CALL.expirationDate' : 1,
                  'data.options.CALL.strike' : 1, 'data.options.CALL.bid' : 1,
-                 'data.options.CALL.ask' : 1})
+                 'data.options.CALL.ask' : 1,
+                 'data.options.CALL.impliedVolatility' : 1})
     return list(items)
 
 pre = get_data(ticker, trade_date)
@@ -71,14 +73,13 @@ col1, col2, col3 = st.columns([2, 2, 1])
 col1.metric("Company", company)
 col2.metric("Last Trade Date", trade_date)
 col3.metric('Last Trade Price', pre[0]['lastTradePrice'])
-#col3.metric("Humidity", "86%", "4%")
 
 # Find the data for a specific expiration date
 df_pre = pd.json_normalize(pre[0]['data'])
 expiration_list = [x[0]['expirationDate'] for x in df_pre['options.CALL']]
 expiration_index = expiration_list.index(expiration_date)
 
-#
+# Filter on the specific expiration date
 df = pd.DataFrame.from_dict(pre[0]['data'][expiration_index]['options']['CALL'])
 
 st.write('### Bid-Ask Price of ', company, ' Call Option')
@@ -102,13 +103,20 @@ line2 = ax.plot(df.strike[condition], df.ask[condition], label='Ask')
 ax.set(xlabel='Strike Price', ylabel='Option Price')
 ax.legend()
 
-# Push to chart to the placeholder
+# Push the chart to the placeholder
 chart_placeholder.pyplot(fig)
 
-# Section: Present the raw data table
+# Section: Implied Volatility chart
+st.write('### Implied Volatility vs. Strike Price of ', company, ' Call Option')
+fig2, ax2 = plt.subplots()
 
+line = ax2.plot(df.strike[condition], df.impliedVolatility[condition], label='Implied Volatility')
+ax2.set(xlabel='Strike Price', ylabel='Implied Volatility')
+st.pyplot(fig2)
+
+# Section: Present the raw data table
 st.write('### Bid-Ask Price of ', company, ' Call Option')
-df.columns = ['Expiration Date', 'Strike Price', 'Bid', 'Ask']
+df.columns = ['Expiration Date', 'Strike Price', 'Bid', 'Ask', 'Implied Volatility']
 st.dataframe(df[condition])
 
 
