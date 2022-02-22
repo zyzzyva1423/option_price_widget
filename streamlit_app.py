@@ -16,7 +16,7 @@ import pandas as pd
 st.header('Historical Price of Most Active Stock Options')
 
 # 10 stocks and their tickers
-stock_dict = {'AAPL' : 'Apple', 'AMC' : 'AMC', 'AMD' : 'Advanced Micro Devices',
+stock_dict = {'AAPL' : 'Apple', 'AMC' : 'AMC', 'AMD' : 'AMD',
              'AMZN' : 'Amazon', 'BAC' : 'Bank of America', 'FB' : 'Facebook',
              'INTC' : 'Intel', 'MSFT' : 'Microsoft', 'NVDA' : 'Nvidia',
              'TSLA' : 'Tesla'}
@@ -67,9 +67,10 @@ def get_data(ticker, trade_date):
 
 pre = get_data(ticker, trade_date)
 
-col1, col2 = st.columns(2)
-col1.metric("Last Trade Date", trade_date)
-col2.metric('Last Trade Price', pre[0]['lastTradePrice'])
+col1, col2, col3 = st.columns([2, 2, 1])
+col1.metric("Company", company)
+col2.metric("Last Trade Date", trade_date)
+col3.metric('Last Trade Price', pre[0]['lastTradePrice'])
 #col3.metric("Humidity", "86%", "4%")
 
 # Find the data for a specific expiration date
