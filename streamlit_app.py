@@ -13,6 +13,8 @@ import json
 import numpy as np
 import pandas as pd
 
+st.title('Historical Price of Most Active Stock Options')
+
 # 10 stocks and their tickers
 stock_dict = {'AAPL' : 'Apple', 'AMC' : 'AMC', 'AMD' : 'Advanced Micro Devices',
              'AMZN' : 'Amazon', 'BAC' : 'Bank of America', 'FB' : 'Facebook',
