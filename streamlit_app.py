@@ -82,7 +82,7 @@ expiration_index = expiration_list.index(expiration_date)
 # Filter on the specific expiration date
 df = pd.DataFrame.from_dict(pre[0]['data'][expiration_index]['options']['CALL'])
 
-st.write('### Bid-Ask Price of ', company, ' Call Option')
+st.write('### Bid-Ask Prices of ', company, ' Call Option')
 
 # Place holder for the chart
 chart_placeholder = st.empty()
@@ -115,7 +115,7 @@ ax2.set(xlabel='Strike Price', ylabel='Implied Volatility')
 st.pyplot(fig2)
 
 # Section: Present the raw data table
-st.write('### Bid-Ask Price of ', company, ' Call Option')
+st.write('### Bid-Ask Prices,  Implied Volatility of ', company, ' Call Option')
 df.columns = ['Expiration Date', 'Strike Price', 'Bid', 'Ask', 'Implied Volatility']
 st.dataframe(df[condition])
 
