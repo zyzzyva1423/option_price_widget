@@ -1,2 +1,3 @@
 # Ignore credential file
 .streamlit/secrets.toml
+.DS_Store
